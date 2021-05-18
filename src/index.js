@@ -18,10 +18,9 @@ const startSever = async () => {
     });
 
     server.applyMiddleware({ app });
-    app.use(cors)
     await mongoose.connect(monogoURL, { useNewUrlParser: true, useUnifiedTopology: true });
 
-    app.listen({ port: 4000 }, () =>
+    app.listen({ port: process.env.PORT || 4000 }, () =>
         console.log('Now browse to http://localhost:4000' + server.graphqlPath)
     );
 
