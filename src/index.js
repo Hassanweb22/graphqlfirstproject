@@ -21,7 +21,7 @@ const startSever = async () => {
     app.use(cors)
     await mongoose.connect(monogoURL, { useNewUrlParser: true, useUnifiedTopology: true });
 
-    app.listen({ port: "https://myfirstgraphqlproject.herokuapp.com/" }, () =>
+    app.listen({ port: 4000 }, () =>
         console.log('Now browse to http://localhost:4000' + server.graphqlPath)
     );
 
