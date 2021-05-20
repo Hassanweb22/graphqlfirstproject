@@ -14,14 +14,14 @@ const typeDefs = gql`
     fname: String!
     age: Int!
     parents: SingleParent!
-    siblings: [SingleChild!]!
+    siblings: [SingleChild]
   }
 
   type SingleParent {
     id: ID!
     fatherName: String!
     occupation: String!
-    childs: [SingleChild!]!
+    childs: [SingleChild]
   }
 
   type Mutation{

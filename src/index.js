@@ -1,3 +1,5 @@
+const Parent = require('./models/Parent')
+const Child = require('./models/Child')
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -15,6 +17,10 @@ const startSever = async () => {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
+        context: {
+            Child,
+            Parent
+        },
         introspection: true,
         playground: true,
     });
