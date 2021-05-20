@@ -74,7 +74,7 @@ function SingleChild() {
 
     const initialState = {
         name: "",
-        age: 0
+        age: null
     }
     const [state, setState] = useState(initialState)
 
