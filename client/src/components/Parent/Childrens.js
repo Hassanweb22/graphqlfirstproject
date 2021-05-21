@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery, gql, useMutation } from '@apollo/client';
-import { Paper, Box, Typography, TextField, CardContent, Card, CardActions, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { Container, Grid } from '@material-ui/core'
+import { Paper, Box, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Grid } from '@material-ui/core'
 import { useHistory, useParams } from 'react-router-dom'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import NewChild from "./NewChild"
+import Subscription from "./Subscription"
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -45,14 +47,23 @@ const useStyles = makeStyles({
         margin: "0 auto"
     },
     form: {
-        marginTop: "20px"
+        margin: "20px auto",
+        display: "flex",
+        justifyContent: "center"
     },
     inputText: {
         marginBottom: "10px"
     }
 });
 
-const CHILDS_QUERY = gql`
+
+function SingleChild() {
+    const classes = useStyles();
+    const history = useHistory()
+    const { fatherName } = useParams()
+
+
+    const CHILDS_QUERY = gql`
          query($name: String!) {
             SingleParent(fatherName: $name) {
                 fatherName
@@ -67,39 +78,11 @@ const CHILDS_QUERY = gql`
     }
     `
 
-function SingleChild() {
-    const classes = useStyles();
-    const history = useHistory()
-    const { fatherName } = useParams()
-
-    const initialState = {
-        name: "",
-        age: null
-    }
-    const [state, setState] = useState(initialState)
-
     const { loading, error, data } = useQuery(CHILDS_QUERY, {
         variables: {
             name: fatherName
         }
     });
-
-
-    const ADD_MUTATION = gql`
-        mutation createChild($name: String!, $fname: String!, $age: Int!) {
-            createChild(
-                name:  $name,
-                fname: $fname,
-                age: $age
-            ){
-                id
-                name
-                age
-            }
-        }
-    `
-
-    const [createChild] = useMutation(ADD_MUTATION)
 
 
 
@@ -109,27 +92,6 @@ function SingleChild() {
     const { SingleParent: { childs } } = data
     console.log("childs", childs)
 
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setState({
-            ...state,
-            [name]: value
-        })
-    }
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(state)
-        createChild({
-            variables: { name: state.name, fname: fatherName, age: parseInt(state.age) }
-        })
-        setState(initialState)
-    }
-
-    const validate = () => {
-        return (state.age > 0 && state.name) ? true : false
-    }
 
     return (
         <>
@@ -156,7 +118,7 @@ function SingleChild() {
 
                                 <TableBody style={{ backgroundColor: "white" }}>
                                     {childs.map(child => {
-                                        return <StyledTableRow >
+                                        return <StyledTableRow key={child.id}>
                                             <StyledTableCell component="th" scope="row">{child.name}</StyledTableCell>
                                             <StyledTableCell component="th" scope="row">{child.fname}</StyledTableCell>
                                             <StyledTableCell component="th" scope="row">{child.age}</StyledTableCell>
@@ -167,21 +129,10 @@ function SingleChild() {
                         </TableContainer> : <Typography align="center" variant="h5">No childrens</Typography>}
                 </Grid>
             </Grid>
+
             <Grid container className={classes.form}>
-                <Grid item xs={11} md={8} lg={6} component={Box} className={classes.tableStyle}>
-                    <Paper component={Box} p={3} spacing={3}>
-                        <Typography component={Box} mb={1} variant="h6">Add Child</Typography>
-                        <form className={classes.root} noValidate autoComplete="off">
-                            <TextField className={classes.inputText} fullWidth label="Name" variant="filled"
-                                name="name" value={state.name} type="text" onChange={handleChange}
-                            />
-                            <TextField className={classes.inputText} fullWidth label="Age" variant="filled"
-                                name="age" value={state.age} type="number" onChange={handleChange}
-                            />
-                            <Button onClick={handleSubmit} variant="contained" color="primary" type="submit">Submit</Button>
-                        </form>
-                    </Paper>
-                </Grid>
+                <NewChild fatherName={fatherName} />
+                <Subscription />
             </Grid>
         </>
     )

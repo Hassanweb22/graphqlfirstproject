@@ -15,7 +15,7 @@ const useStyles = makeStyles({
         width: 'auto',
     },
     listsize: {
-        "& .MuiTypography-displayBlock":{
+        "& .MuiTypography-displayBlock": {
             textTransform: "capitalize"
         }
     }
@@ -51,10 +51,10 @@ export default function TemporaryDrawer(props) {
                     <ListItemIcon><InboxRounded /> </ListItemIcon>
                     <ListItemText primary={"Home"} />
                 </ListItem>
-                <ListItem component={Button} onClick={() => history.push("/childs")}>
+                {/* <ListItem component={Button} onClick={() => history.push("/childs")}>
                     <ListItemIcon><InboxRounded /> </ListItemIcon>
                     <ListItemText primary={"Childs"} />
-                </ListItem>
+                </ListItem> */}
                 <ListItem component={Button} onClick={() => history.push("/parents")}>
                     <ListItemIcon><InboxRounded /> </ListItemIcon>
                     <ListItemText primary={"Parents"} />

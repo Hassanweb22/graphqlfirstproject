@@ -24,11 +24,16 @@ const typeDefs = gql`
     childs: [SingleChild]
   }
 
-  type Mutation{
+  type Mutation {
       createParent(fatherName: String!, occupation:String!): SingleParent!
       createChild (name: String!, fname:String!, age: Int!): SingleChild!
       updateChild (name: String!, fname:String, age: Int): SingleChild!
       deleteChild (name: String!): SingleChild!
+  }
+
+  type Subscription {
+    createParent (fatherName: String!, occupation:String!): SingleParent!
+    createChild (name: String!, fname:String!, age: Int!): SingleChild!
   }
 `;
 
