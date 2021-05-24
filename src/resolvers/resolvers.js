@@ -1,7 +1,7 @@
 const Parent = require("../models/Parent")
 const Child = require("../models/Child")
 const SingleChild = require("./SingleChild")
-// const SingleParent = require("./SingleParent");
+const SingleParent = require("./SingleParent");
 
 
 const resolvers = {
@@ -13,7 +13,7 @@ const resolvers = {
             return findChild
         },
         SingleParent: async (parent, arg, ctx) => {
-            const findParent = await Parent.findOne({ fatherName: arg.fatherName });
+            const findParent = await Parent.findOne({ _id: arg.id });
             return findParent
         }
     },
@@ -42,15 +42,8 @@ const resolvers = {
             return find
         }
     },
-    SingleParent: {
-        childs: async (parent, arg, { Child }) => {
-            console.log("SingleParent", parent)
-            const findChilds = await Child.find({ fname: parent.fatherName })
-            return findChilds
-        }
-    },
-    SingleChild
-
+    SingleChild,
+    SingleParent,
 };
 
 

@@ -17,14 +17,16 @@ const CREATE_CHILD_SUBSCRIPTION = gql`
 
 function Subscription() {
 
-    const { data, error, loading } = useSubscription(CREATE_CHILD_SUBSCRIPTION);
+    const { data, error, loading } = useSubscription(CREATE_CHILD_SUBSCRIPTION, {
+        variables: { name: "aimen", fatherName: "amir", age: 20 }
+    });
 
     if (!loading) {
         console.log("subscription data", data)
     }
     return (
         <div>
-            <h4>New Child: </h4>
+            <h4>New Child : </h4>
         </div>
     )
 

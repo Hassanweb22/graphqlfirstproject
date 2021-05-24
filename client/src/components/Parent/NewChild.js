@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 });
 
 function CreateChild({ fatherName }) {
+
     const classes = useStyles()
     const initialState = {
         name: "",
@@ -28,7 +29,7 @@ function CreateChild({ fatherName }) {
     }
     const [state, setState] = useState(initialState)
 
-    const ADD_CHILD_SUBSCRIPTION = gql`
+    const ADD_MUTATION = gql`
     mutation createChild($name: String!, $fname: String!, $age: Int!) {
         createChild(
             name:  $name,
@@ -42,7 +43,7 @@ function CreateChild({ fatherName }) {
     }
 `
 
-    const [createChild] = useMutation(ADD_CHILD_SUBSCRIPTION)
+    const [createChild] = useMutation(ADD_MUTATION)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -55,9 +56,10 @@ function CreateChild({ fatherName }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(state)
+        let obj = { name: state.name, fname: fatherName, age: parseInt(state.age) }
+        console.log(obj)
         createChild({
-            variables: { name: state.name, fname: fatherName, age: parseInt(state.age) }
+            variables: obj
         })
         setState(initialState)
     }

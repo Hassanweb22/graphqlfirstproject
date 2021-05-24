@@ -5,7 +5,7 @@ const typeDefs = gql`
     childs: [SingleChild!]!
     SingleChild (name: String!): SingleChild!
     parents: [SingleParent!]!
-    SingleParent (fatherName: String!): SingleParent!
+    SingleParent (id: ID!): SingleParent!
   }
 
   type SingleChild {

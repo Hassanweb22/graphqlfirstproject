@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery, gql, useMutation } from '@apollo/client';
-import { Paper, Box, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { Grid } from '@material-ui/core'
+import { Grid, Paper, Box, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, CircularProgress } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router-dom'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import NewChild from "./NewChild"
@@ -60,12 +59,11 @@ const useStyles = makeStyles({
 function SingleChild() {
     const classes = useStyles();
     const history = useHistory()
-    const { fatherName } = useParams()
-
+    const { id } = useParams()
 
     const CHILDS_QUERY = gql`
-         query($name: String!) {
-            SingleParent(fatherName: $name) {
+         query($id: ID!) {
+            SingleParent(id: $id) {
                 fatherName
                 occupation
                     childs {
@@ -80,17 +78,23 @@ function SingleChild() {
 
     const { loading, error, data } = useQuery(CHILDS_QUERY, {
         variables: {
-            name: fatherName
+            id
         }
     });
 
 
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return (
+        <div style={{ width: "90vw", height: "95vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <CircularProgress disableShrink />
+        </div>
+    )
     if (error) return <p>Error :(</p>;
 
-    const { SingleParent: { childs } } = data
+    let { SingleParent: { childs } } = data
+    let { SingleParent: { fatherName } } = data
     console.log("childs", childs)
+    console.log("fatherName", fatherName)
 
 
     return (
@@ -132,6 +136,8 @@ function SingleChild() {
 
             <Grid container className={classes.form}>
                 <NewChild fatherName={fatherName} />
+            </Grid>
+            <Grid container className={classes.form}>
                 <Subscription />
             </Grid>
         </>

@@ -1,4 +1,3 @@
-
 const SingleParent = {
     childs: async (parent, arg, { Child }) => {
         console.log("SingleParent", parent)
@@ -7,4 +6,4 @@ const SingleParent = {
     }
 }
 
-module.export = SingleParent
+module.exports = SingleParent

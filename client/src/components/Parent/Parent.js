@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Box, Typography, CardContent, Card, CardActions, Button } from '@material-ui/core';
+import { Paper, Box, Typography, CardContent, Card, CardActions, Button, CircularProgress } from '@material-ui/core';
 import { Container, Grid } from '@material-ui/core'
 import { useQuery, gql } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
@@ -63,7 +63,11 @@ function Childs() {
 
   const { loading, error, data } = useQuery(CHILDS_QUERY);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return (
+    <div style={{ width: "90vw", height: "95vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <CircularProgress disableShrink />
+    </div>
+  )
   if (error) return <p>Error :(</p>;
 
   const { parents } = data
@@ -94,7 +98,7 @@ function Childs() {
                 </CardContent>
                 <CardActions>
                   <Box mb={1}>
-                    <Button onClick={() => history.push(`parents/${parent.fatherName}`)} size="small" variant="outlined" color="primary">Childrens</Button>
+                    <Button onClick={() => history.push(`parents/${parent.id}`)} size="small" variant="outlined" color="primary">Childrens</Button>
                   </Box>
                 </CardActions>
               </Card>

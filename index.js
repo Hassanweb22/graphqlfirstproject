@@ -15,6 +15,7 @@ const monogoURL = process.env.mongooseURL
 const startSever = async () => {
     const app = express();
 
+    app.use(cors())
     app.use(express.static(path.resolve(path.join(__dirname, 'client/build'))));
 
     const server = new ApolloServer({
